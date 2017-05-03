@@ -14,6 +14,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -130,7 +130,34 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ask_and_answer_EjU_icon.ico" />
+    <Content Include="Data\bib.xml" />
+    <Content Include="Data\bids.xml" />
+    <Content Include="Data\book.xml" />
+    <Content Include="Data\books.xml" />
+    <Content Include="Data\company-data.xml" />
+    <Content Include="Data\config.xml" />
+    <Content Include="Data\Customers.xml" />
+    <Content Include="Data\doc.xml" />
+    <Content Include="Data\dtd.xml" />
+    <Content Include="Data\inventory.xml" />
+    <Content Include="Data\items.xml" />
+    <Content Include="Data\NORTHWND.MDF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\nw_customers.xml" />
+    <Content Include="Data\nw_orders.xml" />
+    <Content Include="Data\partlist.xml" />
+    <Content Include="Data\prices.xml" />
+    <Content Include="Data\report1.xml" />
+    <Content Include="Data\reviews.xml" />
+    <Content Include="Data\sgml.xml" />
+    <Content Include="Data\string.xml" />
+    <Content Include="Data\users.xml" />
+    <Content Include="Data\_samplemapping.xml" />
+    <Content Include="Images\RunningSqlQuery.jpg" />
+    <Content Include="Images\RunningXmlQuery.jpg" />
     <Content Include="ReadMe.html" />
+    <Content Include="SQL Scripts\Northwind.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -138,9 +165,22 @@
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Data\book.dtd" />
+    <None Include="Data\company.dtd" />
+    <None Include="Data\NorthwindMapped.map" />
+    <None Include="Data\nw_customers.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Data\report.dtd" />
+    <None Include="Data\report1.dtd" />
     <None Include="EmployeeDataSet.xsc">
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </None>
