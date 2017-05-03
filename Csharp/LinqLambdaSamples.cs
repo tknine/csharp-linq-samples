@@ -16,7 +16,7 @@ using SampleSupport;
 // Version Mad01
 
 namespace SampleQueries {
-    [Title("101 LINQ Lambda Samples")]
+    [Title("101 LINQ Lambda Samples (NOT DONE)")]
     [Prefix("LinqLambda")]
     public class LinqLambdaSamples : SampleHarness 
     {        
