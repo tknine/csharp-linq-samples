@@ -92,11 +92,8 @@ namespace SampleQueries {
         public void LinqLambda2() {
             List<Product> products = GetProductList();
 
-            var soldOutProducts =
-                from prod in products
-                where prod.UnitsInStock == 0
-                select prod;
-            
+            var soldOutProducts = products.Where(prod => prod.UnitsInStock == 0);
+
             Console.WriteLine("Sold out products:");
             foreach (var product in soldOutProducts) {
                 Console.WriteLine("{0} is sold out!", product.ProductName);
@@ -110,11 +107,8 @@ namespace SampleQueries {
         public void LinqLambda3() {
             List<Product> products = GetProductList();
 
-            var expensiveInStockProducts =
-                from prod in products
-                where prod.UnitsInStock > 0 && prod.UnitPrice > 3.00M
-                select prod;
-            
+            var expensiveInStockProducts = products.Where(prod => prod.UnitsInStock > 0 && prod.UnitPrice > 3.00M);
+
             Console.WriteLine("In-stock products that cost more than 3.00:");
             foreach (var product in expensiveInStockProducts) {
                 Console.WriteLine("{0} is in stock and costs more than 3.00.", product.ProductName);
@@ -128,10 +122,7 @@ namespace SampleQueries {
         public void LinqLambda4() {
             List<Customer> customers = GetCustomerList();
 
-            var waCustomers =
-                from cust in customers
-                where cust.Region == "WA"
-                select cust;
+            var waCustomers = customers.Where(cust => cust.Region == "WA");
 
             Console.WriteLine("Customers from Washington and their orders:");
             foreach (var customer in waCustomers)
@@ -152,7 +143,7 @@ namespace SampleQueries {
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
             var shortDigits = digits.Where((digit, index) => digit.Length < index);
-        
+
             Console.WriteLine("Short digits:");
             foreach (var d in shortDigits)
             {
@@ -167,10 +158,8 @@ namespace SampleQueries {
         public void LinqLambda6() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
-            var numsPlusOne =
-                from num in numbers
-                select num + 1;
-            
+            var numsPlusOne = numbers.Select(n => n + 1);
+
             Console.WriteLine("Numbers + 1:");
             foreach (var i in numsPlusOne) {
                 Console.WriteLine(i);
@@ -183,10 +172,8 @@ namespace SampleQueries {
         public void LinqLambda7() {
             List<Product> products = GetProductList();
 
-            var productNames =
-                from prod in products
-                select prod.ProductName;
-            
+            var productNames = products.Select(p => p.ProductName);
+
             Console.WriteLine("Product Names:");
             foreach (var productName in productNames) {
                 Console.WriteLine(productName);
@@ -201,16 +188,15 @@ namespace SampleQueries {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             string[] strings = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
-            var textNums = 
-                from num in numbers
-                select strings[num];
-            
+            var textNums = numbers.Select(p => strings[p]);
+
             Console.WriteLine("Number strings:");
             foreach (var str in textNums) {
                 Console.WriteLine(str);
             }           
         }
 
+        //TODO - convert start here
         [Category("Projection Operators")]
         [Title("Select - Anonymous Types 1")]
         [Description("This sample uses the select clause to produce a sequence of the uppercase " +
@@ -218,9 +204,9 @@ namespace SampleQueries {
         public void LinqLambda9() {
             string[] words = { "aPPLE", "BlUeBeRrY", "cHeRry" };
 
-            var upperLowerWords =
-                from word in words
-                select new {Upper = word.ToUpper(), Lower = word.ToLower()};
+
+            var upperLowerWords = words.Select(w => new { Upper = w.ToUpper(), Lower = w.ToLower() });
+
 
             foreach (var wordPair in upperLowerWords) {
                 Console.WriteLine("Uppercase: {0}, Lowercase: {1}", wordPair.Upper, wordPair.Lower);
@@ -235,9 +221,10 @@ namespace SampleQueries {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             string[] strings = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
+
             var digitOddEvens =
-                from num in numbers
-                select new {Digit = strings[num], Even = (num % 2 == 0)};
+                numbers.Select(n => new { Digit = strings[n], Even = (n % 2 == 0) });
+
 
             foreach (var digit in digitOddEvens) {
                 Console.WriteLine("The digit {0} is {1}.", digit.Digit, digit.Even ? "even" : "odd");
@@ -252,10 +239,11 @@ namespace SampleQueries {
         public void LinqLambda11() {
             List<Product> products = GetProductList();
 
+
             var productInfos =
-                from prod in products
-                select new {prod.ProductName, prod.Category, Price = prod.UnitPrice};
+                products.Select(prod => new { prod.ProductName, prod.Category, Price = prod.UnitPrice});
             
+
             Console.WriteLine("Product Info:");
             foreach (var productInfo in productInfos) {
                 Console.WriteLine("{0} is in the category {1} and costs {2} per unit.", productInfo.ProductName, productInfo.Category, productInfo.Price);
@@ -269,8 +257,10 @@ namespace SampleQueries {
         public void LinqLambda12() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
+
             var numsInPlace = numbers.Select((num, index) => new {Num = num, InPlace = (num == index)});
         
+
             Console.WriteLine("Number: In-place?");
             foreach (var n in numsInPlace) {
                 Console.WriteLine("{0}: {1}", n.Num, n.InPlace);
@@ -285,10 +275,9 @@ namespace SampleQueries {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
-            var lowNums =
-                from num in numbers
-                where num < 5
-                select digits[num];
+
+            var lowNums = numbers.Where(num => num < 5).Select(num => digits[num]);
+
             
             Console.WriteLine("Numbers < 5:");
             foreach (var num in lowNums) {
@@ -305,11 +294,11 @@ namespace SampleQueries {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
 
-            var pairs =
-                from a in numbersA
-                from b in numbersB
-                where a < b
-                select new {a, b};
+
+            var pairs = numbersA
+                .SelectMany(a => numbersB, (a, b) => new { a, b })
+                .Where(n => n.a < n.b);
+
         
             Console.WriteLine("Pairs where a < b:");
             foreach (var pair in pairs) {
@@ -324,11 +313,14 @@ namespace SampleQueries {
         public void LinqLambda15() {
             List<Customer> customers = GetCustomerList();
 
-            var orders =
-                from cust in customers
-                from order in cust.Orders
-                    where order.Total < 500.00M
-                    select new {cust.CustomerID, order.OrderID, order.Total};
+
+            var orders = 
+                customers
+                    .SelectMany(
+                        cust => cust.Orders.Where(o => o.Total < 500M), 
+                        (cust, order) => new { cust.CustomerID, order.OrderID, order.Total }
+                    );
+
         
             ObjectDumper.Write(orders);
         }
@@ -340,11 +332,14 @@ namespace SampleQueries {
         public void LinqLambda16() {
             List<Customer> customers = GetCustomerList();
 
+
             var orders =
-                from cust in customers
-                from order in cust.Orders
-                    where order.OrderDate >= new DateTime(1998, 1, 1)
-                    select new {cust.CustomerID, order.OrderID, order.OrderDate};
+                customers
+                    .SelectMany(
+                        cust => cust.Orders.Where(o => o.OrderDate >= new DateTime(1998, 1, 1)), 
+                        (cust, order) => new { cust.CustomerID, order.OrderID, order.OrderDate }
+                    );
+
         
             ObjectDumper.Write(orders);
         }
@@ -357,12 +352,15 @@ namespace SampleQueries {
         public void LinqLambda17() {
             List<Customer> customers = GetCustomerList();
 
+
             var orders =
-                from cust in customers
-                from order in cust.Orders
-                let total = order.Total
-                where total >= 2000.0M
-                select new {cust.CustomerID, order.OrderID, total};
+                 customers
+                     .SelectMany(
+                        cust => cust.Orders.Where(o => o.Total >= 2000.0M),
+                        (cust, order) => new { cust.CustomerID, order.OrderID, order.Total }
+                     );
+
+
 
             ObjectDumper.Write(orders);
         }
@@ -377,12 +375,15 @@ namespace SampleQueries {
 
             DateTime cutoffDate = new DateTime(1997, 1, 1);
 
+
             var orders =
-                from cust in customers
-                where cust.Region == "WA"
-                from order in cust.Orders
-                    where order.OrderDate >= cutoffDate
-                    select new {cust.CustomerID, order.OrderID};
+                customers
+                    .Where(cust => cust.Region == "WA")
+                    .SelectMany(
+                        cust => cust.Orders.Where(order => order.OrderDate >= cutoffDate), 
+                        (cust, order) => new { cust.CustomerID, order.OrderID }
+                    );
+
         
             ObjectDumper.Write(orders);
         }
@@ -394,6 +395,7 @@ namespace SampleQueries {
                      "from the query.")]
         public void LinqLambda19() {
             List<Customer> customers = GetCustomerList();
+
 
             var customerOrders =
                 customers.SelectMany(
@@ -411,8 +413,10 @@ namespace SampleQueries {
         public void LinqLambda20() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             var first3Numbers = numbers.Take(3);
             
+
             Console.WriteLine("First 3 numbers:");
             foreach (var n in first3Numbers) {
                 Console.WriteLine(n);
@@ -426,12 +430,15 @@ namespace SampleQueries {
         public void LinqLambda21() {
             List<Customer> customers = GetCustomerList();
 
-            var first3WAOrders = (
-                from cust in customers
-                from order in cust.Orders
-                where cust.Region == "WA"
-                select new {cust.CustomerID, order.OrderID, order.OrderDate} )
-                .Take(3);
+
+            var first3WAOrders =
+                customers
+                    .Where(cust => cust.Region == "WA")
+                    .SelectMany(
+                        cust => cust.Orders,
+                        (cust, order) => new { cust.CustomerID, order.OrderID, order.OrderDate }
+                    ).Take(3);
+
             
             Console.WriteLine("First 3 orders in WA:");
             foreach (var order in first3WAOrders) {
@@ -446,8 +453,10 @@ namespace SampleQueries {
         public void LinqLambda22() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             var allButFirst4Numbers = numbers.Skip(4);
             
+
             Console.WriteLine("All but first 4 numbers:");
             foreach (var n in allButFirst4Numbers) {
                 Console.WriteLine(n);
@@ -461,16 +470,16 @@ namespace SampleQueries {
         public void LinqLambda23() {
             List<Customer> customers = GetCustomerList();
 
-            var waOrders =
-                from cust in customers
-                from order in cust.Orders
-                where cust.Region == "WA"
-                select new {cust.CustomerID, order.OrderID, order.OrderDate};
-        
-            var allButFirst2Orders = waOrders.Skip(2);
+
+            var waOrders = customers.Where(cust => cust.Region == "WA")
+                .SelectMany(
+                    cust => cust.Orders,
+                    (cust, order) => new { cust.CustomerID, order.OrderID, order.OrderDate }
+                ).Skip(2);
+
             
             Console.WriteLine("All but first 2 orders in WA:");
-            foreach (var order in allButFirst2Orders) {
+            foreach (var order in waOrders) {
                 ObjectDumper.Write(order);
             }
         }    
@@ -482,8 +491,10 @@ namespace SampleQueries {
         public void LinqLambda24() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             var firstNumbersLessThan6 = numbers.TakeWhile(n => n < 6);
             
+
             Console.WriteLine("First numbers less than 6:");
             foreach (var num in firstNumbersLessThan6) {
                 Console.WriteLine(num);
@@ -498,8 +509,10 @@ namespace SampleQueries {
         public void LinqLambda25() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             var firstSmallNumbers = numbers.TakeWhile((n, index) => n >= index);
             
+
             Console.WriteLine("First numbers not less than their position:");
             foreach (var n in firstSmallNumbers) {
                 Console.WriteLine(n);
@@ -513,11 +526,13 @@ namespace SampleQueries {
         public void LinqLambda26() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             // In the lambda expression, 'n' is the input parameter that identifies each
             // element in the collection in succession. It is is inferred to be
             // of type int because numbers is an int array.
             var allButFirst3Numbers = numbers.SkipWhile(n => n % 3 != 0);
             
+
             Console.WriteLine("All elements starting from first element divisible by 3:");
             foreach (var n in allButFirst3Numbers) {
                 Console.WriteLine(n);
@@ -531,8 +546,10 @@ namespace SampleQueries {
         public void LinqLambda27() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             var laterNumbers = numbers.SkipWhile((n, index) => n >= index);
             
+
             Console.WriteLine("All elements starting from first element less than its position:");
             foreach (var n in laterNumbers) {
                 Console.WriteLine(n);
@@ -544,12 +561,11 @@ namespace SampleQueries {
         [Description("This sample uses orderby to sort a list of words alphabetically.")]
         public void LinqLambda28() {
             string[] words = { "cherry", "apple", "blueberry" };
+
+
+            var sortedWords = words.OrderBy(w => w);
             
-            var sortedWords =
-                from word in words
-                orderby word
-                select word;
-            
+
             Console.WriteLine("The sorted list of words:");
             foreach (var w in sortedWords) {
                 Console.WriteLine(w);
@@ -561,11 +577,10 @@ namespace SampleQueries {
         [Description("This sample uses orderby to sort a list of words by length.")]
         public void LinqLambda29() {
             string[] words = { "cherry", "apple", "blueberry" };
-            
-            var sortedWords =
-                from word in words
-                orderby word.Length
-                select word;
+
+
+            var sortedWords = words.OrderBy(w => w.Length);
+
             
             Console.WriteLine("The sorted list of words (by length):");
             foreach (var w in sortedWords) {
@@ -580,10 +595,9 @@ namespace SampleQueries {
         public void LinqLambda30() {
             List<Product> products = GetProductList();
 
-            var sortedProducts =
-                from prod in products
-                orderby prod.ProductName
-                select prod;
+
+            var sortedProducts = products.OrderBy(p => p.ProductName);
+
         
             ObjectDumper.Write(sortedProducts);
         }
@@ -605,8 +619,10 @@ namespace SampleQueries {
         public void LinqLambda31() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
             
+
             var sortedWords = words.OrderBy(a => a, new CaseInsensitiveComparer());
                 
+
             ObjectDumper.Write(sortedWords);
         }
         
@@ -616,11 +632,11 @@ namespace SampleQueries {
                      "doubles from highest to lowest.")]
         public void LinqLambda32() {
             double[] doubles = { 1.7, 2.3, 1.9, 4.1, 2.9 };
-            
+
+
             var sortedDoubles =
-                from d in doubles
-                orderby d descending
-                select d;
+                doubles.OrderByDescending(d => d);
+
             
             Console.WriteLine("The doubles from highest to lowest:");
             foreach (var d in sortedDoubles) {
@@ -635,10 +651,9 @@ namespace SampleQueries {
         public void LinqLambda33() {
             List<Product> products = GetProductList();
 
-            var sortedProducts =
-                from prod in products
-                orderby prod.UnitsInStock descending
-                select prod;
+
+            var sortedProducts = products.OrderByDescending(p => p.UnitsInStock);
+
         
             ObjectDumper.Write(sortedProducts);
         }
@@ -651,8 +666,10 @@ namespace SampleQueries {
         public void LinqLambda34() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
             
+
             var sortedWords = words.OrderByDescending(a => a, new CaseInsensitiveComparer());
                 
+
             ObjectDumper.Write(sortedWords);
         }
         
@@ -663,11 +680,12 @@ namespace SampleQueries {
         public void LinqLambda35() {
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
+
             var sortedDigits =
-                from digit in digits 
-                orderby digit.Length, digit
-                select digit;
-        
+                digits.OrderBy(d => d.Length)
+                      .ThenBy(d => d);
+
+
             Console.WriteLine("Sorted digits:");
             foreach (var d in sortedDigits) {
                 Console.WriteLine(d);
@@ -682,22 +700,15 @@ namespace SampleQueries {
         [LinkedClass("CaseInsensitiveComparer")]
         public void LinqLambda36() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
+          
             
             var sortedWords =
                 words.OrderBy(a => a.Length)
                      .ThenBy(a => a, new CaseInsensitiveComparer());
 
-            // Another way. TODO is this use of ThenBy correct? It seems to work on this sample array.
-            var sortedWords2 =
-                from word in words
-                orderby word.Length
-                select word;
-
-            var sortedWords3 = sortedWords2.ThenBy(a => a, new CaseInsensitiveComparer());
                 
             ObjectDumper.Write(sortedWords);
 
-            ObjectDumper.Write(sortedWords3);
         }
         
         [Category("Ordering Operators")]
@@ -707,11 +718,12 @@ namespace SampleQueries {
         public void LinqLambda37() {
             List<Product> products = GetProductList();
 
+
             var sortedProducts =
-                from prod in products
-                orderby prod.Category, prod.UnitPrice descending
-                select prod;
+                products.OrderBy(prod => prod.Category)
+                        .ThenByDescending(prod => prod.UnitPrice);
         
+
             ObjectDumper.Write(sortedProducts);
         }
 
@@ -724,10 +736,12 @@ namespace SampleQueries {
         public void LinqLambda38() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
             
+
             var sortedWords =
                 words.OrderBy(a => a.Length)
                      .ThenByDescending(a => a, new CaseInsensitiveComparer());
                 
+
             ObjectDumper.Write(sortedWords);
         }
         
@@ -737,12 +751,12 @@ namespace SampleQueries {
                      "second letter is 'i' that is reversed from the order in the original array.")]
         public void LinqLambda39() {
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-            
-            var reversedIDigits = (
-                from digit in digits
-                where digit[1] == 'i'
-                select digit)
-                .Reverse();
+
+
+            var reversedIDigits =
+                digits.Where(d => d[1] == 'i')
+                      .Reverse();
+
             
             Console.WriteLine("A backwards list of the digits with a second character of 'i':");
             foreach (var d in reversedIDigits) {
@@ -756,11 +770,12 @@ namespace SampleQueries {
                     "their remainder when divided by 5.")]
         public void LinqLambda40() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
-            
+
+
             var numberGroups =
-                from num in numbers
-                group num by num % 5 into numGroup
-                select new { Remainder = numGroup.Key, Numbers = numGroup };
+                numbers.GroupBy(n => n % 5)
+                       .Select(numGroup => new { Remainder = numGroup.Key, Numbers = numGroup });
+
             
             foreach (var grp in numberGroups) {
                 Console.WriteLine("Numbers with a remainder of {0} when divided by 5:", grp.Remainder);
@@ -776,11 +791,12 @@ namespace SampleQueries {
                      "their first letter.")]
         public void LinqLambda41() {
             string[] words = { "blueberry", "chimpanzee", "abacus", "banana", "apple", "cheese" };
-            
+
+
             var wordGroups =
-                from num in words
-                group num by num[0] into grp
-                select new { FirstLetter = grp.Key, Words = grp };
+                words.GroupBy(w => w[0])
+                     .Select(grp => new { FirstLetter = grp.Key, Words = grp });
+
             
             foreach (var wordgrp in wordGroups) {
                 Console.WriteLine("Words that start with the letter '{0}':", wordgrp.FirstLetter);
@@ -796,12 +812,13 @@ namespace SampleQueries {
         public void LinqLambda42() {
             List<Product> products = GetProductList();
 
-            var orderGroups =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                select new { Category = prodGroup.Key, Products = prodGroup };
+
+            var productGroups =
+                products.GroupBy(p => p.Category)
+                        .Select(prodGroup => new { Categroy = prodGroup.Key, Products = prodGroup });
+
                            
-            ObjectDumper.Write(orderGroups, 1);
+            ObjectDumper.Write(productGroups, 1);
         }
         
         [Category("Grouping Operators")]
@@ -811,21 +828,25 @@ namespace SampleQueries {
         public void LinqLambda43() {
             List<Customer> customers = GetCustomerList();
 
-            var customerOrderGroups = 
-                from cust in customers
-                select
-                    new {cust.CompanyName, 
-                         YearGroups =
-                             from order in cust.Orders
-                             group order by order.OrderDate.Year into yearGroup
-                             select
-                                 new {Year = yearGroup.Key,
-                                      MonthGroups = 
-                                          from order in yearGroup
-                                          group order by order.OrderDate.Month into MonthGroup
-                                          select new { Month = MonthGroup.Key, Orders = MonthGroup }
-                                     }
-                        };
+
+            var customerOrderGroups =
+                customers.Select(c => new
+                {
+                    CompanyName = c.CompanyName,
+                    YearGroups = c.Orders
+                        .GroupBy(o => o.OrderDate.Year)
+                        .Select( yearGroup => new
+                        {
+                            Year = yearGroup.Key,
+                            MonthGroups = yearGroup
+                                .GroupBy( month => month.OrderDate.Month)
+                                .Select(monthGroup => new
+                                {
+                                    Month = monthGroup.Key, Orders = monthGroup
+                                })
+                        })
+                });
+
                            
             ObjectDumper.Write(customerOrderGroups, 3);
         }
@@ -855,8 +876,12 @@ namespace SampleQueries {
         public void LinqLambda44() {
             string[] anagrams = {"from   ", " salt", " earn ", "  last   ", " near ", " form  "};
 
-            var orderGroups = anagrams.GroupBy(w => w.Trim(), new AnagramEqualityComparer());
+
+            var orderGroups = 
+                anagrams
+                    .GroupBy(w => w.Trim(), new AnagramEqualityComparer());
                            
+
             ObjectDumper.Write(orderGroups, 1);
         }
         
@@ -869,12 +894,14 @@ namespace SampleQueries {
         public void LinqLambda45() {
             string[] anagrams = {"from   ", " salt", " earn ", "  last   ", " near ", " form  "};
 
+
             var orderGroups = anagrams.GroupBy(
-                        w => w.Trim(), 
+                        w => w.Trim(),
                         a => a.ToUpper(),
                         new AnagramEqualityComparer()
                         );
                            
+
             ObjectDumper.Write(orderGroups, 1);
         }
                      
@@ -885,7 +912,9 @@ namespace SampleQueries {
         public void LinqLambda46() {
             int[] factorsOf300 = { 2, 2, 3, 5, 5 };
             
+
             var uniqueFactors = factorsOf300.Distinct();
+
 
             Console.WriteLine("Prime factors of 300:");
             foreach (var f in uniqueFactors) {
@@ -898,12 +927,12 @@ namespace SampleQueries {
         [Description("This sample uses Distinct to find the unique Category names.")]
         public void LinqLambda47() {
             List<Product> products = GetProductList();
+
+            var categoryNames = 
+                products.Select(p => p.Category)
+                        .Distinct();
+                      
             
-            var categoryNames = (
-                from prod in products
-                select prod.Category)
-                .Distinct();
-                                                 
             Console.WriteLine("Category names:");
             foreach (var n in categoryNames) {
                 Console.WriteLine(n);
@@ -918,8 +947,10 @@ namespace SampleQueries {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
+
             var uniqueNumbers = numbersA.Union(numbersB);
             
+
             Console.WriteLine("Unique numbers from both arrays:");
             foreach (var n in uniqueNumbers) {
                 Console.WriteLine(n);
@@ -933,15 +964,12 @@ namespace SampleQueries {
         public void LinqLambda49() {
             List<Product> products = GetProductList();
             List<Customer> customers = GetCustomerList();
-            
-            var productFirstChars =
-                from prod in products
-                select prod.ProductName[0];
-            var customerFirstChars =
-                from cust in customers
-                select cust.CompanyName[0];
-            
-            var uniqueFirstChars = productFirstChars.Union(customerFirstChars);
+
+
+            var uniqueFirstChars =
+                products.Select(p => p.ProductName[0])
+                        .Union(customers.Select(c => c.CompanyName[0]));
+
             
             Console.WriteLine("Unique first letters from Product names and Customer names:");
             foreach (var ch in uniqueFirstChars) {
@@ -957,8 +985,10 @@ namespace SampleQueries {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
+
             var commonNumbers = numbersA.Intersect(numbersB);
             
+
             Console.WriteLine("Common numbers shared by both arrays:");
             foreach (var n in commonNumbers) {
                 Console.WriteLine(n);
@@ -972,16 +1002,13 @@ namespace SampleQueries {
         public void LinqLambda51() {
             List<Product> products = GetProductList();
             List<Customer> customers = GetCustomerList();
-            
-            var productFirstChars =
-                from prod in products
-                select prod.ProductName[0];
-            var customerFirstChars =
-                from cust in customers
-                select cust.CompanyName[0];
-            
-            var commonFirstChars = productFirstChars.Intersect(customerFirstChars);
-            
+
+
+            var commonFirstChars =
+                products.Select(p => p.ProductName[0])
+                        .Intersect(customers.Select(c => c.CompanyName[0]));
+
+
             Console.WriteLine("Common first letters from Product names and Customer names:");
             foreach (var ch in commonFirstChars) {
                 Console.WriteLine(ch);
@@ -996,8 +1023,10 @@ namespace SampleQueries {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
+
             IEnumerable<int> aOnlyNumbers = numbersA.Except(numbersB);
             
+
             Console.WriteLine("Numbers in first array but not second array:");
             foreach (var n in aOnlyNumbers) {
                 Console.WriteLine(n);
@@ -1011,15 +1040,13 @@ namespace SampleQueries {
         public void LinqLambda53() {
             List<Product> products = GetProductList();
             List<Customer> customers = GetCustomerList();
-            
-            var productFirstChars =
-                from prod in products
-                select prod.ProductName[0];
-            var customerFirstChars =
-                from cust in customers
-                select cust.CompanyName[0];
-            
-            var productOnlyFirstChars = productFirstChars.Except(customerFirstChars);
+
+
+
+            var productOnlyFirstChars =
+                products.Select(p => p.ProductName[0])
+                        .Except(customers.Select(c => c.CompanyName[0]));
+
             
             Console.WriteLine("First letters from Product names, but not from Customer names:");
             foreach (var ch in productOnlyFirstChars) {
