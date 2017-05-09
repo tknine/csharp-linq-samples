@@ -196,7 +196,6 @@ namespace SampleQueries {
             }           
         }
 
-        //TODO - convert start here
         [Category("Projection Operators")]
         [Title("Select - Anonymous Types 1")]
         [Description("This sample uses the select clause to produce a sequence of the uppercase " +
@@ -1059,12 +1058,13 @@ namespace SampleQueries {
         [Description("This sample uses ToArray to immediately evaluate a sequence into an array.")]
         public void LinqLambda54() {
             double[] doubles = { 1.7, 2.3, 1.9, 4.1, 2.9 };
-            
-            var sortedDoubles =
-                from d in doubles
-                orderby d descending
-                select d;
-            var doublesArray = sortedDoubles.ToArray();
+
+
+            var doublesArray = 
+                doubles
+                    .OrderByDescending(d => d)
+                    .ToArray();
+
             
             Console.WriteLine("Every other double from highest to lowest:");
             for (int d = 0; d < doublesArray.Length; d += 2) {
@@ -1077,12 +1077,13 @@ namespace SampleQueries {
         [Description("This sample uses ToList to immediately evaluate a sequence into a List<T>.")]
         public void LinqLambda55() {
             string[] words = { "cherry", "apple", "blueberry" };
-            
-            var sortedWords =
-                from w in words
-                orderby w
-                select w;
-            var wordList = sortedWords.ToList();
+
+
+            var wordList =
+                words
+                    .OrderBy(w => w)
+                    .ToArray();
+
             
             Console.WriteLine("The sorted word list:");
             foreach (var w in wordList) {
@@ -1100,8 +1101,11 @@ namespace SampleQueries {
                                         new {Name = "Cathy", Score = 45}
                                     };
             
-            var scoreRecordsDict = scoreRecords.ToDictionary(sr => sr.Name);
+
+            var scoreRecordsDict = 
+                scoreRecords.ToDictionary(sr => sr.Name);
             
+
             Console.WriteLine("Bob's score: {0}", scoreRecordsDict["Bob"]);
         }
 
@@ -1111,8 +1115,10 @@ namespace SampleQueries {
         public void LinqLambda57() {
             object[] numbers = { null, 1.0, "two", 3, "four", 5, "six", 7.0 };
 
+
             var doubles = numbers.OfType<double>();
             
+
             Console.WriteLine("Numbers stored as doubles:");
             foreach (var d in doubles) {
                 Console.WriteLine(d);
@@ -1126,11 +1132,12 @@ namespace SampleQueries {
         public void LinqLambda58() {
             List<Product> products = GetProductList();
 
-            Product product12 = (
-                from prod in products
-                where prod.ProductID == 12
-                select prod)
-                .First();
+
+            var product12 =
+                products
+                    .Where(p => p.ProductID == 12)
+                    .First();
+
         
             ObjectDumper.Write(product12);
         }
@@ -1141,8 +1148,13 @@ namespace SampleQueries {
         public void LinqLambda59() {
             string[] strings = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
-            string startsWithO = strings.First(s => s[0] == 'o');
+
+
+            string startsWithO = 
+                strings.First(s => s[0] == 'o');
         
+
+
             Console.WriteLine("A string starting with 'o': {0}", startsWithO);
         }
         
@@ -1154,8 +1166,11 @@ namespace SampleQueries {
         public void LinqLambda61() {
             int[] numbers = {};
 
-            int firstNumOrDefault = numbers.FirstOrDefault();
+
+            int firstNumOrDefault = 
+                numbers.FirstOrDefault();
         
+
             Console.WriteLine(firstNumOrDefault);
         }
         
@@ -1166,8 +1181,11 @@ namespace SampleQueries {
         public void LinqLambda62() {
             List<Product> products = GetProductList();
 
-            Product product789 = products.FirstOrDefault(p => p.ProductID == 789);
+
+            Product product789 = 
+                products.FirstOrDefault(p => p.ProductID == 789);
         
+
             Console.WriteLine("Product 789 exists: {0}", product789 != null);
         }
              
@@ -1178,11 +1196,12 @@ namespace SampleQueries {
         public void LinqLambda64() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
-            int fourthLowNum = (
-                from num in numbers
-                where num > 5
-                select num )
-                .ElementAt(1);  // second number is index 1 because sequences use 0-based indexing
+
+            int fourthLowNum =
+                numbers
+                    .Where(n => n > 5)
+                    .ElementAt(1);
+
         
             Console.WriteLine("Second number > 5: {0}", fourthLowNum);
         }
@@ -1192,9 +1211,12 @@ namespace SampleQueries {
         [Description("This sample uses Range to generate a sequence of numbers from 100 to 149 " +
                      "that is used to find which numbers in that range are odd and even.")]
         public void LinqLambda65() {
+
+
             var numbers =
-                from n in Enumerable.Range(100, 50)
-                select new {Number = n, OddEven = n % 2 == 1 ? "odd" : "even"};
+                Enumerable.Range(100, 50)
+                    .Select(n => new { Number = n, OddEven = n % 2 == 1 ? "odd" : "even" });
+
             
             foreach (var n in numbers) {
                 Console.WriteLine("The number {0} is {1}.", n.Number, n.OddEven);
@@ -1205,8 +1227,11 @@ namespace SampleQueries {
         [Title("Repeat")]
         [Description("This sample uses Repeat to generate a sequence that contains the number 7 ten times.")]
         public void LinqLambda66() {
+
+
             var numbers = Enumerable.Repeat(7, 10);
             
+
             foreach (var n in numbers) {
                 Console.WriteLine(n);
             }
@@ -1220,24 +1245,27 @@ namespace SampleQueries {
         public void LinqLambda67() {
             string[] words = { "believe", "relief", "receipt", "field" };
             
-            bool iAfterE = words.Any(w => w.Contains("ei"));
 
-            //DONE fixed typo in writeline
+            bool iAfterE = 
+                words.Any(w => w.Contains("ei"));
+
+
             Console.WriteLine("There is a word in the list that contains 'ei': {0}", iAfterE);
         }
         
         [Category("Quantifiers")]
         [Title("Any - Grouped")]
-        [Description("This sample uses Any to return a grouped a list of products only for categories " +
+        [Description("This sample uses Any to return a grouped list of products only for categories " +
                      "that have at least one product that is out of stock.")]
         public void LinqLambda69() {
             List<Product> products = GetProductList();
 
+
             var productGroups =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                where prodGroup.Any(p => p.UnitsInStock == 0)
-                select new { Category = prodGroup.Key, Products = prodGroup };
+                products.GroupBy(p => p.Category)
+                .Where(pg => pg.Any(p => p.UnitsInStock == 0))
+                .Select(pg => new { Category = pg.Key, Products = pg });
+
 
             ObjectDumper.Write(productGroups, 1);
         }
@@ -1249,7 +1277,9 @@ namespace SampleQueries {
         public void LinqLambda70() {
             int[] numbers = { 1, 11, 3, 19, 41, 65, 19 };
             
+
             bool onlyOdd = numbers.All(n => n % 2 == 1);
+
 
             Console.WriteLine("The list contains only odd numbers: {0}", onlyOdd);
         }
@@ -1261,11 +1291,13 @@ namespace SampleQueries {
         public void LinqLambda72() {
             List<Product> products = GetProductList();
 
+
             var productGroups =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                where prodGroup.All(p => p.UnitsInStock > 0)
-                select new { Category = prodGroup.Key, Products = prodGroup };
+                products
+                    .GroupBy(p => p.Category)
+                    .Where(pg => pg.All(p => p.UnitsInStock > 0))
+                    .Select(pg => new { Category = pg.Key, Products = pg });
+
 
             ObjectDumper.Write(productGroups, 1);
         }
@@ -1276,7 +1308,12 @@ namespace SampleQueries {
         public void LinqLambda73() {
             int[] primeFactorsOf300 = { 2, 2, 3, 5, 5 };
             
-            int uniqueFactors = primeFactorsOf300.Distinct().Count();
+
+            int uniqueFactors = 
+                primeFactorsOf300
+                    .Distinct()
+                    .Count();
+
 
             Console.WriteLine("There are {0} unique prime factors of 300.", uniqueFactors);
         }
@@ -1287,8 +1324,12 @@ namespace SampleQueries {
         public void LinqLambda74() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
-            int oddNumbers = numbers.Count(n => n % 2 == 1);
+
+            int oddNumbers = 
+                numbers
+                    .Count(n => n % 2 == 1);
             
+
             Console.WriteLine("There are {0} odd numbers in the list.", oddNumbers);
         }
 
@@ -1298,11 +1339,13 @@ namespace SampleQueries {
                      "each has.")]
         public void LinqLambda76() {
             List<Customer> customers = GetCustomerList();
-            
+
+
             var orderCounts =
-                from cust in customers
-                select new {cust.CustomerID, OrderCount = cust.Orders.Count()};
-        
+                customers
+                    .Select(c => new { c.CustomerID, OrderCount = c.Orders.Length });
+
+
             ObjectDumper.Write(orderCounts);
         }
         
@@ -1313,10 +1356,12 @@ namespace SampleQueries {
         public void LinqLambda77() {
             List<Product> products = GetProductList();
 
+
             var categoryCounts =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                select new {Category = prodGroup.Key, ProductCount = prodGroup.Count()};
+                products
+                    .GroupBy(p => p.Category)
+                    .Select(pg => new { Category = pg.Key, ProductCount = pg.Count() });
+
             
             ObjectDumper.Write(categoryCounts);
         }
@@ -1328,8 +1373,10 @@ namespace SampleQueries {
         public void LinqLambda78() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             double numSum = numbers.Sum();
             
+
             Console.WriteLine("The sum of the numbers is {0}.", numSum);
         }
 
@@ -1340,8 +1387,10 @@ namespace SampleQueries {
         public void LinqLambda79() {
             string[] words = { "cherry", "apple", "blueberry" };
             
+
             double totalChars = words.Sum(w => w.Length);
             
+
             Console.WriteLine("There are a total of {0} characters in these words.", totalChars);
         }
 
@@ -1353,11 +1402,18 @@ namespace SampleQueries {
         public void LinqLambda80() {
             List<Product> products = GetProductList();
 
+
             var categories =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                select new {Category = prodGroup.Key, TotalUnitsInStock = prodGroup.Sum(p => p.UnitsInStock)};
+                products
+                    .GroupBy(p => p.Category)
+                    .Select(pg => new
+                        {
+                            Category = pg.Key,
+                            TotalUnitsInStock = pg.Sum(p => p.UnitsInStock)
+                        }
+                    );
         
+
             ObjectDumper.Write(categories);
         }
         
@@ -1367,8 +1423,10 @@ namespace SampleQueries {
         public void LinqLambda81() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             int minNum = numbers.Min();
             
+
             Console.WriteLine("The minimum number is {0}.", minNum);
         }
 
@@ -1378,8 +1436,10 @@ namespace SampleQueries {
         public void LinqLambda82() {
             string[] words = { "cherry", "apple", "blueberry" };
             
+
             int shortestWord = words.Min(w => w.Length);
             
+
             Console.WriteLine("The shortest word is {0} characters long.", shortestWord);
         }
         
@@ -1389,25 +1449,42 @@ namespace SampleQueries {
         public void LinqLambda83() {
             List<Product> products = GetProductList();
 
+
             var categories =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                select new {Category = prodGroup.Key, CheapestPrice = prodGroup.Min(p => p.UnitPrice)};
+                products
+                    .GroupBy(p => p.Category)
+                    .Select(pg => new
+                    {
+                        Category = pg.Key,
+                        CheapestPrice = pg.Min(p => p.UnitPrice)
+                    });
+
         
             ObjectDumper.Write(categories);
         }
         
         [Category("Aggregate Operators")]
         [Title("Min - Elements")]
-        [Description("This sample uses Min to get the products with the lowest price in each category.")]
+        [Description("This sample uses Min to get the products with the lowest price in each category. Lambda statements to not have a 'let' statement, so an extra Select statement is used to create the MinPrice property on the anonymous object.")]
         public void LinqLambda84() {
             List<Product> products = GetProductList();
 
+
             var categories =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                let minPrice = prodGroup.Min(p => p.UnitPrice)
-                select new {Category = prodGroup.Key, CheapestProducts = prodGroup.Where(p => p.UnitPrice == minPrice)};
+                products
+                    .GroupBy(p => p.Category)
+                    .Select(pg => new           //simulate the "let" statement
+                    {
+                        Category = pg.Key,
+                        Products = pg,
+                        MinPrice = pg.Min(p => p.UnitPrice)
+                    })
+                    .Select(pg => new
+                    {
+                        pg.Category,
+                        CheapestProducts = pg.Products.Where(p => p.UnitPrice == pg.MinPrice)
+                    });
+
         
             ObjectDumper.Write(categories, 1);
         }
@@ -1418,8 +1495,10 @@ namespace SampleQueries {
         public void LinqLambda85() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             int maxNum = numbers.Max();
             
+
             Console.WriteLine("The maximum number is {0}.", maxNum);
         }
 
@@ -1429,8 +1508,10 @@ namespace SampleQueries {
         public void LinqLambda86() {
             string[] words = { "cherry", "apple", "blueberry" };
             
+
             int longestLength = words.Max(w => w.Length);
             
+
             Console.WriteLine("The longest word is {0} characters long.", longestLength);
         }
         
@@ -1440,25 +1521,43 @@ namespace SampleQueries {
         public void LinqLambda87() {
             List<Product> products = GetProductList();
 
+
             var categories =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                select new {Category = prodGroup.Key, MostExpensivePrice = prodGroup.Max(p => p.UnitPrice)};
+                products
+                    .GroupBy(p => p.Category)
+                    .Select(pg => new
+                    {
+                        Category = pg.Key,
+                        MostExpensivePrice = pg.Max(p => p.UnitPrice)
+                    });
+
+
         
             ObjectDumper.Write(categories);
         }
         
         [Category("Aggregate Operators")]
         [Title("Max - Elements")]
-        [Description("This sample uses Max to get the products with the most expensive price in each category.")]
+        [Description("This sample uses Max to get the products with the most expensive price in each category.  Lambda statements to not have a 'let' statement, so an extra Select statement is used to create the MinPrice property on the anonymous object.")]
         public void LinqLambda88() {
             List<Product> products = GetProductList();
+        
 
             var categories =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                let maxPrice = prodGroup.Max(p => p.UnitPrice)
-                select new {Category = prodGroup.Key, MostExpensiveProducts = prodGroup.Where(p => p.UnitPrice == maxPrice)};
+                products
+                    .GroupBy(p => p.Category)
+                    .Select(pg => new          //simulate the "let" statement
+                    {
+                        Category = pg.Key,
+                        Products = pg,
+                        MaxPrice = pg.Max(p => p.UnitPrice)
+                    })
+                    .Select(pg => new
+                    {
+                        pg.Category,
+                        MostExpensiveProducts = pg.Products.Where(p => p.UnitPrice == pg.MaxPrice)
+                    });
+
         
             ObjectDumper.Write(categories, 1);
         }
@@ -1469,8 +1568,10 @@ namespace SampleQueries {
         public void LinqLambda89() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
+
             double averageNum = numbers.Average();
             
+
             Console.WriteLine("The average number is {0}.", averageNum);
         }
 
@@ -1480,8 +1581,10 @@ namespace SampleQueries {
         public void LinqLambda90() {
             string[] words = { "cherry", "apple", "blueberry" };
             
+
             double averageLength = words.Average(w => w.Length);
             
+
             Console.WriteLine("The average word length is {0} characters.", averageLength);
         }
         
@@ -1491,10 +1594,17 @@ namespace SampleQueries {
         public void LinqLambda91() {
             List<Product> products = GetProductList();
 
+
             var categories =
-                from prod in products
-                group prod by prod.Category into prodGroup
-                select new {Category = prodGroup.Key, AveragePrice = prodGroup.Average(p => p.UnitPrice)};
+                products
+                    .GroupBy(p => p.Category)
+                    .Select(pg => new
+                    {
+                        Category = pg.Key,
+                        AveragePrice = pg.Average(p => p.UnitPrice)
+                    });
+
+
         
             ObjectDumper.Write(categories);
         }
@@ -1506,8 +1616,12 @@ namespace SampleQueries {
         public void LinqLambda92() {
             double[] doubles = { 1.7, 2.3, 1.9, 4.1, 2.9 };
             
-            double product = doubles.Aggregate((runningProduct, nextFactor) => runningProduct * nextFactor);
+
+            double product = 
+                doubles
+                    .Aggregate((runningProduct, nextFactor) => runningProduct * nextFactor);
             
+
             Console.WriteLine("Total product of all numbers: {0}", product);
         }
         
@@ -1521,11 +1635,15 @@ namespace SampleQueries {
             
             int[] attemptedWithdrawals = { 20, 10, 40, 50, 10, 70, 30 };
             
+
             double endBalance = 
-                attemptedWithdrawals.Aggregate(startBalance,
-                    (balance, nextWithdrawal) =>
-                        ( (nextWithdrawal <= balance) ? (balance - nextWithdrawal) : balance ) );
+                attemptedWithdrawals
+                    .Aggregate(startBalance,
+                        (balance, nextWithdrawal) =>
+                            ( (nextWithdrawal <= balance) ? (balance - nextWithdrawal) : balance ) 
+                    );
             
+
             Console.WriteLine("Ending balance: {0}", endBalance);
         }
         
@@ -1537,8 +1655,10 @@ namespace SampleQueries {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
+
             var allNumbers = numbersA.Concat(numbersB);
             
+
             Console.WriteLine("All numbers from both arrays:");
             foreach (var n in allNumbers) {
                 Console.WriteLine(n);
@@ -1552,16 +1672,14 @@ namespace SampleQueries {
         public void LinqLambda95() {
             List<Customer> customers = GetCustomerList();
             List<Product> products = GetProductList();
+
+
+            var allNames =
+                customers
+                    .Select(c => c.CompanyName)
+                    .Concat(products.Select(p => p.ProductName));
             
-            var customerNames =
-                from cust in customers
-                select cust.CompanyName;
-            var productNames =
-                from prod in products
-                select prod.ProductName;
-            
-            var allNames = customerNames.Concat(productNames);
-            
+
             Console.WriteLine("Customer and product names:");
             foreach (var n in allNames) {
                 Console.WriteLine(n);
@@ -1576,8 +1694,10 @@ namespace SampleQueries {
             var wordsA = new string[] { "cherry", "apple", "blueberry" };
             var wordsB = new string[] { "cherry", "apple", "blueberry" };
             
+
             bool match = wordsA.SequenceEqual(wordsB);
             
+
             Console.WriteLine("The sequences match: {0}", match);
         }
         
@@ -1589,8 +1709,10 @@ namespace SampleQueries {
             var wordsA = new string[] { "cherry", "apple", "blueberry" };
             var wordsB = new string[] { "apple", "blueberry", "cherry" };
 
+
             bool match = wordsA.SequenceEqual(wordsB);
             
+
             Console.WriteLine("The sequences match: {0}", match);
         }
 
@@ -1602,11 +1724,13 @@ namespace SampleQueries {
             
             // Queries are not executed until you enumerate over them.
             int[] numbers = new int[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
-            
+
             int i = 0;
+
+
             var simpleQuery =
-                from num in numbers
-                select ++i;
+                numbers.Select(n => ++i);
+
 
             // The local variable 'i' is not incremented
             // until the query is executed in the foreach loop.
@@ -1628,9 +1752,10 @@ namespace SampleQueries {
             int[] numbers = new int[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };        
             
             int i = 0;
-            var immediateQuery = (
-                from num in numbers
-                select ++i )
+
+
+            var immediateQuery =
+                numbers.Select(n => ++i)
                 .ToList();
 
             Console.WriteLine("The current value of i is {0}", i); //i has been incremented
@@ -1649,10 +1774,13 @@ namespace SampleQueries {
             // Deferred execution lets us define a query once
             // and then reuse it later in various ways.
             int[] numbers = new int[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+
+
             var lowNumbers =
-                from num in numbers
-                where num <= 3
-                select num;
+                numbers
+                    .Where(n => n <= 3)
+                    .Select(n => n);
+
 
             Console.WriteLine("First run numbers <= 3:");
             foreach (int n in lowNumbers) {
@@ -1661,9 +1789,10 @@ namespace SampleQueries {
 
             // Query the original query.
             var lowEvenNumbers =
-                from num in lowNumbers
-                where num % 2 == 0
-                select num;
+                lowNumbers
+                    .Where(n => n % 2 == 0)
+                    .Select(n => n);
+
 
             Console.WriteLine("Run lowEvenNumbers query:");
             foreach (int n in lowEvenNumbers)
@@ -1695,10 +1824,16 @@ namespace SampleQueries {
             List<Customer> customers = GetCustomerList();
             List<Supplier> suppliers = GetSupplierList();
 
-            var custSupJoin = 
-                from sup in suppliers
-                join cust in customers on sup.Country equals cust.Country
-                select new { Country = sup.Country, SupplierName = sup.SupplierName, CustomerName = cust.CompanyName };
+
+            var custSupJoin =
+                suppliers
+                    .Join(customers, s => s.Country, c => c.Country, (s, c) => new
+                    {
+                        Country = s.Country,
+                        SupplierName = s.SupplierName,
+                        CustomerName = c.CompanyName
+                    });
+
 
             foreach (var item in custSupJoin) {
                 Console.WriteLine("Country = {0}, Supplier = {1}, Customer = {2}", item.Country, item.SupplierName, item.CustomerName);
@@ -1715,10 +1850,18 @@ namespace SampleQueries {
             List<Customer> customers = GetCustomerList();
             List<Supplier> suppliers = GetSupplierList();
 
+
             var custSupQuery =
-                from sup in suppliers
-                join cust in customers on sup.Country equals cust.Country into cs
-                select new { Key = sup.Country, Items = cs };
+                suppliers
+                    .GroupJoin(
+                        customers,
+                        s => s.Country,
+                        c => c.Country,
+                        (s, result) => new
+                        {
+                            Key = s.Country,
+                            Items = result
+                        });
 
            
             foreach (var item in custSupQuery) {
@@ -1733,7 +1876,7 @@ namespace SampleQueries {
         [Category("Join Operators")]
         [Title("Cross Join with Group Join")]
         [Description("The group join operator is more general than join, as this slightly more verbose " +
-            "version of the cross join sample shows.")]
+            "version of the cross join sample shows.  Using extension methods is more verbose than than a query expression.  It requires first doing the GroupJoin and then a SelectMany on each Category group.")]
         public void LinqLambda104() {
             string[] categories = new string[]{ 
                 "Beverages", 
@@ -1744,11 +1887,27 @@ namespace SampleQueries {
                
             List<Product> products = GetProductList();
 
-            var prodByCategory = 
-                from cat in categories
-                join prod in products on cat equals prod.Category into ps
-                from p in ps   
-                select new { Category = cat, p.ProductName };
+
+            var prodByCategory =
+                categories
+                    .GroupJoin(
+                        products,
+                        c => c,
+                        p => p.Category,
+                        (c, result) => new
+                        {
+                            Category = c,
+                            Products = result
+                        }
+                    )
+                    .SelectMany(
+                        c => c.Products,
+                        (c, p) => new
+                        {
+                            Category = c.Category,
+                            ProductName = p.ProductName
+                        });
+
 
             foreach (var item in prodByCategory) {
                 Console.WriteLine(item.ProductName + ": " + item.Category);
@@ -1757,18 +1916,36 @@ namespace SampleQueries {
         [Category("Join Operators")]
         [Title("Left Outer Join")]
         [Description("A left outer join produces a result set that includes all the left hand side elements at " + 
-            "least once, even if they don't match any right hand side elements.")]
+            "least once, even if they don't match any right hand side elements.  The lambda expression syntax for an outer join can be created by using a GroupJoin and including a DefaultIfEmpty method on the value that might have null values.")]
         public void LinqLambda105() {
             List<Customer> customers = GetCustomerList();
             List<Supplier> suppliers = GetSupplierList();
 
-            var supplierCusts = 
-                from sup in suppliers
-                join cust in customers on sup.Country equals cust.Country into cs
-                from c in cs.DefaultIfEmpty()  // DefaultIfEmpty preserves left-hand elements that have no matches on the right side 
-                orderby sup.SupplierName
-                select new { Country = sup.Country, CompanyName = c == null ? "(No customers)" : c.CompanyName,
-                             SupplierName = sup.SupplierName};
+
+            var supplierCusts =
+                suppliers
+                    .GroupJoin(
+                        customers,
+                        s => s.Country,
+                        c => c.Country,
+                        (s, c) => new
+                        {
+                            Supplier = s,
+                            //Customer will be replaced with null where there is no value
+                            //which creates the left join functionality.
+                            Customers = c.DefaultIfEmpty()  
+                        })
+                    .OrderBy(s => s.Supplier.SupplierName)
+                    .SelectMany(
+                        s => s.Customers,
+                        (s, c) => new
+                        {
+                            Country = s.Supplier.Country,
+                            CompanyName = c == null ? "(No customers)" : c.CompanyName,
+                            SupplierName = s.Supplier.SupplierName
+                        }
+                    );
+
 
             foreach (var item in supplierCusts) {
                 Console.WriteLine("{0} ({1}): {2}", item.SupplierName, item.Country, item.CompanyName);
@@ -1778,7 +1955,7 @@ namespace SampleQueries {
         [Category("Join Operators")]
         [Title("Left Outer Join No. 2")]
         [Description("For each customer in the table of customers, this query returns all the suppliers " +
-                     "from that same country, or else a string indicating that no suppliers from that country were found.")]
+                     "from that same country, or else a string indicating that no suppliers from that country were found.  The lambda expression syntax for an outer join can be created by using a GroupJoin and including a DefaultIfEmpty method on the value that might have null values.")]
         public void LinqLambda106()
         {
 
@@ -1786,13 +1963,30 @@ namespace SampleQueries {
             List<Supplier> suppliers = GetSupplierList();
 
             var custSuppliers =
-                from cust in customers
-                join sup in suppliers on cust.Country equals sup.Country into ss
-                from s in ss.DefaultIfEmpty()
-                orderby cust.CompanyName
-                select new { Country = cust.Country, CompanyName = cust.CompanyName,
-                             SupplierName = s == null ? "(No suppliers)" : s.SupplierName };
+                customers
+                    .GroupJoin(
+                        suppliers,
+                        c => c.Country,
+                        s => s.Country,
+                        (c, s) => new
+                        {
+                            Customer = c,
+                            //Supplier will be replaced with null where there is no value
+                            //which creates the left join functionality.
+                            Suppliers = s.DefaultIfEmpty()
+                        })
+                    .OrderBy(c => c.Customer.CompanyName)
+                    .SelectMany(
+                        c => c.Suppliers,
+                        (c, s) => new
+                        {
+                            Country = c.Customer.Country,
+                            CompanyName = c.Customer.CompanyName,
+                            SupplierName = s == null ? "(No suppliers)" : s.SupplierName
+                        }
+                    );
 
+          
             foreach (var item in custSuppliers) {
                 Console.WriteLine("{0} ({1}): {2}", item.CompanyName, item.Country, item.SupplierName);
             }
@@ -1802,22 +1996,38 @@ namespace SampleQueries {
         [Title("Left Outer Join with Composite Key")]
         [Description("For each supplier in the table of suppliers, this query returns all the customers " +
                      "from the same city and country, or else a string indicating that no customers from that city/country were found. " +
-                     "Note the use of anonymous types to encapsulate the multiple key values.")]
+                     "Note the use of anonymous types to encapsulate the multiple key values.  The lambda expression syntax for an outer join can be created by using a GroupJoin and including a DefaultIfEmpty method on the value that might have null values.")]
         public void LinqLambda107()
         {
             List<Customer> customers = GetCustomerList();
             List<Supplier> suppliers = GetSupplierList();
 
+
             var supplierCusts =
-                from sup in suppliers
-                join cust in customers on new { sup.City, sup.Country } equals new { cust.City, cust.Country } into cs
-                from c in cs.DefaultIfEmpty() //Remove DefaultIfEmpty method call to make this an inner join
-                orderby sup.SupplierName
-                select new { Country = sup.Country, 
-                             City = sup.City,
-                             SupplierName = sup.SupplierName,
-                             CompanyName = c == null ? "(No customers)" : c.CompanyName
-                           };
+              suppliers
+                  .GroupJoin(
+                      customers,
+                      s => new { s.City, s.Country },
+                      c => new { c.City, c.Country },
+                      (s, c) => new
+                      {
+                          Supplier = s,
+                          //Customer will be replaced with null where there is no value
+                          //which creates the left join functionality.
+                          Customers = c.DefaultIfEmpty()
+                      })
+                   .OrderBy(s => s.Supplier.SupplierName)
+                   .SelectMany(
+                        s => s.Customers,
+                        (s, c) => new
+                        {
+                            Country = s.Supplier.Country,
+                            City = s.Supplier.City,
+                            SupplierName = s.Supplier.SupplierName,
+                            CompanyName = c == null ? "(No customers)" : c.CompanyName
+                        }
+                   );
+
 
             foreach (var item in supplierCusts)
             {
@@ -1867,7 +2077,8 @@ namespace SampleQueries {
             return customerList;
         }
 
-        private void createLists() {
+        private void createLists()
+        {
             // Product data created in-memory using collection initializer:
             productList =
                 new List<Product> {
@@ -1980,16 +2191,17 @@ namespace SampleQueries {
                     new Supplier {SupplierName = "Escargots Nouveaux", Address = "22, rue H. Voiron", City = "Montceau", Country = "France"},
                     new Supplier {SupplierName = "Gai pâturage", Address = "Bat. B 3, rue des Alpes", City = "Annecy", Country = "France"},
                     new Supplier {SupplierName = "Forêts d'érables", Address = "148 rue Chasseur", City = "Ste-Hyacinthe", Country = "Canada"},
-                };           
-        
-        
+                };
+
+
             // Customer/order data read into memory from XML file using XLinq:
             string customerListPath = Path.GetFullPath(Path.Combine(dataPath, "customers.xml"));
 
             customerList = (
                 from e in XDocument.Load(customerListPath).
                           Root.Elements("customer")
-                select new Customer {
+                select new Customer
+                {
                     CustomerID = (string)e.Element("id"),
                     CompanyName = (string)e.Element("name"),
                     Address = (string)e.Element("address"),
@@ -2001,12 +2213,17 @@ namespace SampleQueries {
                     Fax = (string)e.Element("fax"),
                     Orders = (
                         from o in e.Elements("orders").Elements("order")
-                        select new Order {
+                        select new Order
+                        {
                             OrderID = (int)o.Element("id"),
                             OrderDate = (DateTime)o.Element("orderdate"),
-                            Total = (decimal)o.Element("total") } )
-                        .ToArray() } )
+                            Total = (decimal)o.Element("total")
+                        })
+                        .ToArray()
+                })
                 .ToList();
         }
+
+       
     }
 }
