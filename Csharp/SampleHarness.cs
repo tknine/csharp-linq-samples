@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace SampleSupport
 {
@@ -38,6 +39,9 @@ namespace SampleSupport
                 else if (a is PrefixAttribute)
                     prefix = ((PrefixAttribute)a).Prefix;
             }
+
+            if (prefix == "Lambda")
+                Console.WriteLine("Test");
 
             String allCode = readFile(Application.StartupPath + @"\..\..\" + codeFile);
             

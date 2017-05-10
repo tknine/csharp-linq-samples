@@ -30,8 +30,8 @@ namespace SampleQueries
             harnesses.Add(linqHarness);
 
             // LinqSamples:
-            LinqLambdaSamples linqLambdaHarness = new LinqLambdaSamples();
-            harnesses.Add(linqLambdaHarness);
+            LambdaSamples lambdaHarness = new LambdaSamples();
+            harnesses.Add(lambdaHarness);
 
             // Linq To SQL Samples:
             LinqToSqlSamples linqToSqlHarness = new LinqToSqlSamples();

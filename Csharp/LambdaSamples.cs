@@ -16,9 +16,9 @@ using SampleSupport;
 // Version Mad01
 
 namespace SampleQueries {
-    [Title("101 LINQ Lambda Samples (NOT DONE)")]
-    [Prefix("LinqLambda")]
-    public class LinqLambdaSamples : SampleHarness 
+    [Title("101 Lambda Extension Method Samples")]
+    [Prefix("Lambda")]
+    public class LambdaSamples : SampleHarness 
     {        
         private readonly static string dataPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\Data\"));
         
@@ -74,7 +74,7 @@ namespace SampleQueries {
         [Category("Restriction Operators")]
         [Title("Where - Simple 1")]
         [Description("This sample uses the where clause to find all elements of an array with a value less than 5.")]
-        public void LinqLambda1() {
+        public void Lambda1() {
 
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
@@ -89,7 +89,7 @@ namespace SampleQueries {
         [Category("Restriction Operators")]
         [Title("Where - Simple 2")]
         [Description("This sample uses the where clause to find all products that are out of stock.")]
-        public void LinqLambda2() {
+        public void Lambda2() {
             List<Product> products = GetProductList();
 
             var soldOutProducts = products.Where(prod => prod.UnitsInStock == 0);
@@ -104,7 +104,7 @@ namespace SampleQueries {
         [Title("Where - Simple 3")]
         [Description("This sample uses the where clause to find all products that are in stock and " +
                      "cost more than 3.00 per unit.")]
-        public void LinqLambda3() {
+        public void Lambda3() {
             List<Product> products = GetProductList();
 
             var expensiveInStockProducts = products.Where(prod => prod.UnitsInStock > 0 && prod.UnitPrice > 3.00M);
@@ -119,7 +119,7 @@ namespace SampleQueries {
         [Title("Where - Drilldown")]
         [Description("This sample uses the where clause to find all customers in Washington " +
                      "and then it uses a foreach loop to iterate over the orders collection that belongs to each customer.")]
-        public void LinqLambda4() {
+        public void Lambda4() {
             List<Customer> customers = GetCustomerList();
 
             var waCustomers = customers.Where(cust => cust.Region == "WA");
@@ -139,7 +139,7 @@ namespace SampleQueries {
         [Title("Where - Indexed")]
         [Description("This sample demonstrates an indexed where clause that returns digits whose name is " +
                     "shorter than their value.")]
-        public void LinqLambda5() {
+        public void Lambda5() {
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
             var shortDigits = digits.Where((digit, index) => digit.Length < index);
@@ -155,7 +155,7 @@ namespace SampleQueries {
         [Title("Select - Simple 1")]
         [Description("This sample uses the select clause to produce a sequence of ints one higher than " +
                      "those in an existing array of ints.")]
-        public void LinqLambda6() {
+        public void Lambda6() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
             var numsPlusOne = numbers.Select(n => n + 1);
@@ -169,7 +169,7 @@ namespace SampleQueries {
         [Category("Projection Operators")]
         [Title("Select - Simple 2")]
         [Description("This sample uses the select clause to return a sequence of product names.")]
-        public void LinqLambda7() {
+        public void Lambda7() {
             List<Product> products = GetProductList();
 
             var productNames = products.Select(p => p.ProductName);
@@ -184,7 +184,7 @@ namespace SampleQueries {
         [Title("Select - Transformation")]
         [Description("This sample uses the select clause to produce a sequence of strings representing " +
                      "the text version of a sequence of ints.")]
-        public void LinqLambda8() {
+        public void Lambda8() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             string[] strings = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
@@ -200,7 +200,7 @@ namespace SampleQueries {
         [Title("Select - Anonymous Types 1")]
         [Description("This sample uses the select clause to produce a sequence of the uppercase " +
                      "and lowercase versions of each word in the original array.")]
-        public void LinqLambda9() {
+        public void Lambda9() {
             string[] words = { "aPPLE", "BlUeBeRrY", "cHeRry" };
 
 
@@ -216,7 +216,7 @@ namespace SampleQueries {
         [Title("Select - Anonymous Types 2")]
         [Description("This sample uses the select clause to produce a sequence containing text " +
                      "representations of digits and a Boolean that specifies whether the text length is even or odd.")]
-        public void LinqLambda10() {
+        public void Lambda10() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             string[] strings = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
@@ -235,7 +235,7 @@ namespace SampleQueries {
         [Description("This sample uses the select clause to produce a sequence containing some properties " +
                      "of Products, including UnitPrice which is renamed to Price " +
                      "in the resulting type.")]
-        public void LinqLambda11() {
+        public void Lambda11() {
             List<Product> products = GetProductList();
 
 
@@ -253,7 +253,7 @@ namespace SampleQueries {
         [Title("Select - Indexed")]
         [Description("This sample uses an indexed Select clause to determine if the value of ints " +
                      "in an array match their position in the array.")]
-        public void LinqLambda12() {
+        public void Lambda12() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
 
@@ -270,7 +270,7 @@ namespace SampleQueries {
         [Title("Select - Filtered")]
         [Description("This sample combines select and where to make a simple query that returns " +
                      "the text form of each digit less than 5.")]
-        public void LinqLambda13() {
+        public void Lambda13() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
@@ -289,7 +289,7 @@ namespace SampleQueries {
         [Description("This sample uses a compound from clause to make a query that returns all pairs " +
                      "of numbers from both arrays in which the number from numbersA is less than the number " +
                      "from numbersB.")]
-        public void LinqLambda14() {
+        public void Lambda14() {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
 
@@ -309,7 +309,7 @@ namespace SampleQueries {
         [Title("SelectMany - Compound from 2")]
         [Description("This sample uses a compound from clause to select all orders where the " +
                      "order total is less than 500.00.")]
-        public void LinqLambda15() {
+        public void Lambda15() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -328,7 +328,7 @@ namespace SampleQueries {
         [Title("SelectMany - Compound from 3")]
         [Description("This sample uses a compound from clause to select all orders where the " +
                      "order was made in 1998 or later.")]
-        public void LinqLambda16() {
+        public void Lambda16() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -348,7 +348,7 @@ namespace SampleQueries {
         [Description("This sample uses a compound from clause to select all orders where the " +
                      "order total is greater than 2000.00 and uses a let clause to avoid " +
                      "requesting the total twice.")] 
-        public void LinqLambda17() {
+        public void Lambda17() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -369,7 +369,7 @@ namespace SampleQueries {
         [Description("This sample uses compound from clauses so that filtering on customers can " +
                      "be done before selecting their orders.  This makes the query more efficient by " +
                      "not selecting and then discarding orders for customers outside of Washington.")]
-        public void LinqLambda18() {
+        public void Lambda18() {
             List<Customer> customers = GetCustomerList();
 
             DateTime cutoffDate = new DateTime(1997, 1, 1);
@@ -392,7 +392,7 @@ namespace SampleQueries {
         [Description("This sample uses an indexed SelectMany clause to select all orders, " +
                      "while referring to customers by the order in which they are returned " +
                      "from the query.")]
-        public void LinqLambda19() {
+        public void Lambda19() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -409,7 +409,7 @@ namespace SampleQueries {
         [Title("Take - Simple")]
         [Description("This sample uses Take to get only the first 3 elements of " +
                      "the array.")]
-        public void LinqLambda20() {
+        public void Lambda20() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -426,7 +426,7 @@ namespace SampleQueries {
         [Title("Take - Nested")]
         [Description("This sample uses Take to get the first 3 orders from customers " +
                      "in Washington.")]
-        public void LinqLambda21() {
+        public void Lambda21() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -449,7 +449,7 @@ namespace SampleQueries {
         [Title("Skip - Simple")]
         [Description("This sample uses Skip to get all but the first four elements of " +
                      "the array.")]
-        public void LinqLambda22() {
+        public void Lambda22() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -466,7 +466,7 @@ namespace SampleQueries {
         [Title("Skip - Nested")]
         [Description("This sample uses Take to get all but the first 2 orders from customers " +
                      "in Washington.")]
-        public void LinqLambda23() {
+        public void Lambda23() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -487,7 +487,7 @@ namespace SampleQueries {
         [Title("TakeWhile - Simple")]
         [Description("This sample uses TakeWhile to return elements starting from the " +
                      "beginning of the array until a number is read whose value is not less than 6.")]
-        public void LinqLambda24() {
+        public void Lambda24() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -505,7 +505,7 @@ namespace SampleQueries {
         [Description("This sample uses TakeWhile to return elements starting from the " +
                     "beginning of the array until a number is hit that is less than its position " +
                     "in the array.")]
-        public void LinqLambda25() {
+        public void Lambda25() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -522,7 +522,7 @@ namespace SampleQueries {
         [Title("SkipWhile - Simple")]
         [Description("This sample uses SkipWhile to get the elements of the array " +
                     "starting from the first element divisible by 3.")]
-        public void LinqLambda26() {
+        public void Lambda26() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -542,7 +542,7 @@ namespace SampleQueries {
         [Title("SkipWhile - Indexed")]
         [Description("This sample uses SkipWhile to get the elements of the array " +
                     "starting from the first element less than its position.")]
-        public void LinqLambda27() {
+        public void Lambda27() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -558,7 +558,7 @@ namespace SampleQueries {
         [Category("Ordering Operators")]
         [Title("OrderBy - Simple 1")]
         [Description("This sample uses orderby to sort a list of words alphabetically.")]
-        public void LinqLambda28() {
+        public void Lambda28() {
             string[] words = { "cherry", "apple", "blueberry" };
 
 
@@ -574,7 +574,7 @@ namespace SampleQueries {
         [Category("Ordering Operators")]
         [Title("OrderBy - Simple 2")]
         [Description("This sample uses orderby to sort a list of words by length.")]
-        public void LinqLambda29() {
+        public void Lambda29() {
             string[] words = { "cherry", "apple", "blueberry" };
 
 
@@ -591,7 +591,7 @@ namespace SampleQueries {
         [Title("OrderBy - Simple 3")]
         [Description("This sample uses orderby to sort a list of products by name. " +
                     "Use the \"descending\" keyword at the end of the clause to perform a reverse ordering.")]
-        public void LinqLambda30() {
+        public void Lambda30() {
             List<Product> products = GetProductList();
 
 
@@ -615,7 +615,7 @@ namespace SampleQueries {
         [Description("This sample uses an OrderBy clause with a custom comparer to " +
                      "do a case-insensitive sort of the words in an array.")]
         [LinkedClass("CaseInsensitiveComparer")]
-        public void LinqLambda31() {
+        public void Lambda31() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
             
 
@@ -629,7 +629,7 @@ namespace SampleQueries {
         [Title("OrderByDescending - Simple 1")]
         [Description("This sample uses orderby and descending to sort a list of " +
                      "doubles from highest to lowest.")]
-        public void LinqLambda32() {
+        public void Lambda32() {
             double[] doubles = { 1.7, 2.3, 1.9, 4.1, 2.9 };
 
 
@@ -647,7 +647,7 @@ namespace SampleQueries {
         [Title("OrderByDescending - Simple 2")]
         [Description("This sample uses orderby to sort a list of products by units in stock " +
                      "from highest to lowest.")]
-        public void LinqLambda33() {
+        public void Lambda33() {
             List<Product> products = GetProductList();
 
 
@@ -662,7 +662,7 @@ namespace SampleQueries {
         [Description("This sample uses method syntax to call OrderByDescending because it " +
                     " enables you to use a custom comparer.")]
         [LinkedClass("CaseInsensitiveComparer")]
-        public void LinqLambda34() {
+        public void Lambda34() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
             
 
@@ -676,7 +676,7 @@ namespace SampleQueries {
         [Title("ThenBy - Simple")]
         [Description("This sample uses a compound orderby to sort a list of digits, " +
                      "first by length of their name, and then alphabetically by the name itself.")]
-        public void LinqLambda35() {
+        public void Lambda35() {
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
 
@@ -697,7 +697,7 @@ namespace SampleQueries {
                      "sort first by word length and then by a case-insensitive sort of the words in an array. " +
                      "The second two queries show another way to perform the same task.")]
         [LinkedClass("CaseInsensitiveComparer")]
-        public void LinqLambda36() {
+        public void Lambda36() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
           
             
@@ -714,7 +714,7 @@ namespace SampleQueries {
         [Title("ThenByDescending - Simple")]
         [Description("This sample uses a compound orderby to sort a list of products, " +
                      "first by category, and then by unit price, from highest to lowest.")]
-        public void LinqLambda37() {
+        public void Lambda37() {
             List<Product> products = GetProductList();
 
 
@@ -732,7 +732,7 @@ namespace SampleQueries {
                      "sort first by word length and then by a case-insensitive descending sort " +
                      "of the words in an array.")]
         [LinkedClass("CaseInsensitiveComparer")]
-        public void LinqLambda38() {
+        public void Lambda38() {
             string[] words = { "aPPLE", "AbAcUs", "bRaNcH", "BlUeBeRrY", "ClOvEr", "cHeRry"};
             
 
@@ -748,7 +748,7 @@ namespace SampleQueries {
         [Title("Reverse")]
         [Description("This sample uses Reverse to create a list of all digits in the array whose " +
                      "second letter is 'i' that is reversed from the order in the original array.")]
-        public void LinqLambda39() {
+        public void Lambda39() {
             string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
 
@@ -767,7 +767,7 @@ namespace SampleQueries {
         [Title("GroupBy - Simple 1")]
         [Description("This sample uses group by to partition a list of numbers by " +
                     "their remainder when divided by 5.")]
-        public void LinqLambda40() {
+        public void Lambda40() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
 
@@ -788,7 +788,7 @@ namespace SampleQueries {
         [Title("GroupBy - Simple 2")]
         [Description("This sample uses group by to partition a list of words by " +
                      "their first letter.")]
-        public void LinqLambda41() {
+        public void Lambda41() {
             string[] words = { "blueberry", "chimpanzee", "abacus", "banana", "apple", "cheese" };
 
 
@@ -808,7 +808,7 @@ namespace SampleQueries {
         [Category("Grouping Operators")]
         [Title("GroupBy - Simple 3")]
         [Description("This sample uses group by to partition a list of products by category.")]
-        public void LinqLambda42() {
+        public void Lambda42() {
             List<Product> products = GetProductList();
 
 
@@ -824,7 +824,7 @@ namespace SampleQueries {
         [Title("GroupBy - Nested")]
         [Description("This sample uses group by to partition a list of each customer's orders, " +
                      "first by year, and then by month.")]
-        public void LinqLambda43() {
+        public void Lambda43() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -872,7 +872,7 @@ namespace SampleQueries {
         [Description("This sample uses GroupBy with method syntax to partition trimmed elements of an array using " +
                      "a custom comparer that matches words that are anagrams of each other.")]
         [LinkedClass("AnagramEqualityComparer")]
-        public void LinqLambda44() {
+        public void Lambda44() {
             string[] anagrams = {"from   ", " salt", " earn ", "  last   ", " near ", " form  "};
 
 
@@ -890,7 +890,7 @@ namespace SampleQueries {
                      "a custom comparer that matches words that are anagrams of each other, " +
                      "and then converts the results to uppercase.")]
         [LinkedClass("AnagramEqualityComparer")]
-        public void LinqLambda45() {
+        public void Lambda45() {
             string[] anagrams = {"from   ", " salt", " earn ", "  last   ", " near ", " form  "};
 
 
@@ -908,7 +908,7 @@ namespace SampleQueries {
         [Title("Distinct - 1")]
         [Description("This sample uses Distinct to remove duplicate elements in a sequence of " +
                     "factors of 300.")]
-        public void LinqLambda46() {
+        public void Lambda46() {
             int[] factorsOf300 = { 2, 2, 3, 5, 5 };
             
 
@@ -924,7 +924,7 @@ namespace SampleQueries {
         [Category("Set Operators")]
         [Title("Distinct - 2")]
         [Description("This sample uses Distinct to find the unique Category names.")]
-        public void LinqLambda47() {
+        public void Lambda47() {
             List<Product> products = GetProductList();
 
             var categoryNames = 
@@ -942,7 +942,7 @@ namespace SampleQueries {
         [Title("Union - 1")]
         [Description("This sample uses Union to create one sequence that contains the unique values " +
                      "from both arrays.")]
-        public void LinqLambda48() {
+        public void Lambda48() {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
@@ -960,7 +960,7 @@ namespace SampleQueries {
         [Title("Union - 2")]
         [Description("This sample uses the Union method to create one sequence that contains the unique first letter " +
                      "from both product and customer names. Union is only available through method syntax.")]
-        public void LinqLambda49() {
+        public void Lambda49() {
             List<Product> products = GetProductList();
             List<Customer> customers = GetCustomerList();
 
@@ -980,7 +980,7 @@ namespace SampleQueries {
         [Title("Intersect - 1")]
         [Description("This sample uses Intersect to create one sequence that contains the common values " +
                     "shared by both arrays.")]
-        public void LinqLambda50() {
+        public void Lambda50() {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
@@ -998,7 +998,7 @@ namespace SampleQueries {
         [Title("Intersect - 2")]
         [Description("This sample uses Intersect to create one sequence that contains the common first letter " +
                      "from both product and customer names.")]
-        public void LinqLambda51() {
+        public void Lambda51() {
             List<Product> products = GetProductList();
             List<Customer> customers = GetCustomerList();
 
@@ -1018,7 +1018,7 @@ namespace SampleQueries {
         [Title("Except - 1")]
         [Description("This sample uses Except to create a sequence that contains the values from numbersA" +
                      "that are not also in numbersB.")]
-        public void LinqLambda52() {
+        public void Lambda52() {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
@@ -1036,7 +1036,7 @@ namespace SampleQueries {
         [Title("Except - 2")]
         [Description("This sample uses Except to create one sequence that contains the first letters " +
                      "of product names that are not also first letters of customer names.")]
-        public void LinqLambda53() {
+        public void Lambda53() {
             List<Product> products = GetProductList();
             List<Customer> customers = GetCustomerList();
 
@@ -1056,7 +1056,7 @@ namespace SampleQueries {
         [Category("Conversion Operators")]
         [Title("ToArray")]
         [Description("This sample uses ToArray to immediately evaluate a sequence into an array.")]
-        public void LinqLambda54() {
+        public void Lambda54() {
             double[] doubles = { 1.7, 2.3, 1.9, 4.1, 2.9 };
 
 
@@ -1075,7 +1075,7 @@ namespace SampleQueries {
         [Category("Conversion Operators")]
         [Title("ToList")]
         [Description("This sample uses ToList to immediately evaluate a sequence into a List<T>.")]
-        public void LinqLambda55() {
+        public void Lambda55() {
             string[] words = { "cherry", "apple", "blueberry" };
 
 
@@ -1095,7 +1095,7 @@ namespace SampleQueries {
         [Title("ToDictionary")]
         [Description("This sample uses ToDictionary to immediately evaluate a sequence and a " +
                     "related key expression into a dictionary.")]
-        public void LinqLambda56() {
+        public void Lambda56() {
             var scoreRecords = new [] { new {Name = "Alice", Score = 50},
                                         new {Name = "Bob"  , Score = 40},
                                         new {Name = "Cathy", Score = 45}
@@ -1112,7 +1112,7 @@ namespace SampleQueries {
         [Category("Conversion Operators")]
         [Title("OfType")]
         [Description("This sample uses OfType to return only the elements of the array that are of type double.")]
-        public void LinqLambda57() {
+        public void Lambda57() {
             object[] numbers = { null, 1.0, "two", 3, "four", 5, "six", 7.0 };
 
 
@@ -1129,7 +1129,7 @@ namespace SampleQueries {
         [Title("First - Simple")]
         [Description("This sample uses First to return the first matching element " +
                      "as a Product, instead of as a sequence containing a Product.")]
-        public void LinqLambda58() {
+        public void Lambda58() {
             List<Product> products = GetProductList();
 
 
@@ -1145,7 +1145,7 @@ namespace SampleQueries {
         [Category("Element Operators")]
         [Title("First - Condition")]
         [Description("This sample uses First to find the first element in the array that starts with 'o'.")]
-        public void LinqLambda59() {
+        public void Lambda59() {
             string[] strings = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
 
@@ -1163,7 +1163,7 @@ namespace SampleQueries {
         [Description("This sample uses FirstOrDefault to try to return the first element of the sequence, " +
                      "unless there are no elements, in which case the default value for that type " +
                      "is returned. FirstOrDefault is useful for creating outer joins.")]
-        public void LinqLambda61() {
+        public void Lambda61() {
             int[] numbers = {};
 
 
@@ -1178,7 +1178,7 @@ namespace SampleQueries {
         [Title("FirstOrDefault - Condition")]
         [Description("This sample uses FirstOrDefault to return the first product whose ProductID is 789 " +
                      "as a single Product object, unless there is no match, in which case null is returned.")]
-        public void LinqLambda62() {
+        public void Lambda62() {
             List<Product> products = GetProductList();
 
 
@@ -1193,7 +1193,7 @@ namespace SampleQueries {
         [Title("ElementAt")]
         [Description("This sample uses ElementAt to retrieve the second number greater than 5 " +
                      "from an array.")]
-        public void LinqLambda64() {
+        public void Lambda64() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
 
@@ -1210,7 +1210,7 @@ namespace SampleQueries {
         [Title("Range")]
         [Description("This sample uses Range to generate a sequence of numbers from 100 to 149 " +
                      "that is used to find which numbers in that range are odd and even.")]
-        public void LinqLambda65() {
+        public void Lambda65() {
 
 
             var numbers =
@@ -1226,7 +1226,7 @@ namespace SampleQueries {
         [Category("Generation Operators")]
         [Title("Repeat")]
         [Description("This sample uses Repeat to generate a sequence that contains the number 7 ten times.")]
-        public void LinqLambda66() {
+        public void Lambda66() {
 
 
             var numbers = Enumerable.Repeat(7, 10);
@@ -1242,7 +1242,7 @@ namespace SampleQueries {
         [Title("Any - Simple")]
         [Description("This sample uses Any to determine if any of the words in the array " +
                      "contain the substring 'ei'.")]
-        public void LinqLambda67() {
+        public void Lambda67() {
             string[] words = { "believe", "relief", "receipt", "field" };
             
 
@@ -1257,7 +1257,7 @@ namespace SampleQueries {
         [Title("Any - Grouped")]
         [Description("This sample uses Any to return a grouped list of products only for categories " +
                      "that have at least one product that is out of stock.")]
-        public void LinqLambda69() {
+        public void Lambda69() {
             List<Product> products = GetProductList();
 
 
@@ -1274,7 +1274,7 @@ namespace SampleQueries {
         [Title("All - Simple")]
         [Description("This sample uses All to determine whether an array contains " +
                      "only odd numbers.")]
-        public void LinqLambda70() {
+        public void Lambda70() {
             int[] numbers = { 1, 11, 3, 19, 41, 65, 19 };
             
 
@@ -1288,7 +1288,7 @@ namespace SampleQueries {
         [Title("All - Grouped")]
         [Description("This sample uses All to return a grouped a list of products only for categories " +
                      "that have all of their products in stock.")]
-        public void LinqLambda72() {
+        public void Lambda72() {
             List<Product> products = GetProductList();
 
 
@@ -1305,7 +1305,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Count - Simple")]
         [Description("This sample uses Count to get the number of unique prime factors of 300.")]
-        public void LinqLambda73() {
+        public void Lambda73() {
             int[] primeFactorsOf300 = { 2, 2, 3, 5, 5 };
             
 
@@ -1321,7 +1321,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Count - Conditional")]
         [Description("This sample uses Count to get the number of odd ints in the array.")]
-        public void LinqLambda74() {
+        public void Lambda74() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -1337,7 +1337,7 @@ namespace SampleQueries {
         [Title("Count - Nested")]
         [Description("This sample uses Count to return a list of customers and how many orders " +
                      "each has.")]
-        public void LinqLambda76() {
+        public void Lambda76() {
             List<Customer> customers = GetCustomerList();
 
 
@@ -1353,7 +1353,7 @@ namespace SampleQueries {
         [Title("Count - Grouped")]
         [Description("This sample uses Count to return a list of categories and how many products " +
                      "each has.")]
-        public void LinqLambda77() {
+        public void Lambda77() {
             List<Product> products = GetProductList();
 
 
@@ -1370,7 +1370,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Sum - Simple")]
         [Description("This sample uses Sum to add all the numbers in an array.")]
-        public void LinqLambda78() {
+        public void Lambda78() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -1384,7 +1384,7 @@ namespace SampleQueries {
         [Title("Sum - Projection")]
         [Description("This sample uses Sum to get the total number of characters of all words " +
                      "in the array.")]
-        public void LinqLambda79() {
+        public void Lambda79() {
             string[] words = { "cherry", "apple", "blueberry" };
             
 
@@ -1399,7 +1399,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Sum - Grouped")]
         [Description("This sample uses Sum to get the total units in stock for each product category.")]
-        public void LinqLambda80() {
+        public void Lambda80() {
             List<Product> products = GetProductList();
 
 
@@ -1420,7 +1420,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Min - Simple")]
         [Description("This sample uses Min to get the lowest number in an array.")]
-        public void LinqLambda81() {
+        public void Lambda81() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -1433,7 +1433,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Min - Projection")]
         [Description("This sample uses Min to get the length of the shortest word in an array.")]
-        public void LinqLambda82() {
+        public void Lambda82() {
             string[] words = { "cherry", "apple", "blueberry" };
             
 
@@ -1446,7 +1446,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Min - Grouped")]
         [Description("This sample uses Min to get the cheapest price among each category's products.")]
-        public void LinqLambda83() {
+        public void Lambda83() {
             List<Product> products = GetProductList();
 
 
@@ -1466,7 +1466,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Min - Elements")]
         [Description("This sample uses Min to get the products with the lowest price in each category. Lambda statements to not have a 'let' statement, so an extra Select statement is used to create the MinPrice property on the anonymous object.")]
-        public void LinqLambda84() {
+        public void Lambda84() {
             List<Product> products = GetProductList();
 
 
@@ -1492,7 +1492,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Max - Simple")]
         [Description("This sample uses Max to get the highest number in an array. Note that the method returns a single value.")]
-        public void LinqLambda85() {
+        public void Lambda85() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -1505,7 +1505,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Max - Projection")]
         [Description("This sample uses Max to get the length of the longest word in an array.")]
-        public void LinqLambda86() {
+        public void Lambda86() {
             string[] words = { "cherry", "apple", "blueberry" };
             
 
@@ -1518,7 +1518,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Max - Grouped")]
         [Description("This sample uses Max to get the most expensive price among each category's products.")]
-        public void LinqLambda87() {
+        public void Lambda87() {
             List<Product> products = GetProductList();
 
 
@@ -1539,7 +1539,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Max - Elements")]
         [Description("This sample uses Max to get the products with the most expensive price in each category.  Lambda statements to not have a 'let' statement, so an extra Select statement is used to create the MinPrice property on the anonymous object.")]
-        public void LinqLambda88() {
+        public void Lambda88() {
             List<Product> products = GetProductList();
         
 
@@ -1565,7 +1565,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Average - Simple")]
         [Description("This sample uses Average to get the average of all numbers in an array.")]
-        public void LinqLambda89() {
+        public void Lambda89() {
             int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
             
 
@@ -1578,7 +1578,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Average - Projection")]
         [Description("This sample uses Average to get the average length of the words in the array.")]
-        public void LinqLambda90() {
+        public void Lambda90() {
             string[] words = { "cherry", "apple", "blueberry" };
             
 
@@ -1591,7 +1591,7 @@ namespace SampleQueries {
         [Category("Aggregate Operators")]
         [Title("Average - Grouped")]
         [Description("This sample uses Average to get the average price of each category's products.")]
-        public void LinqLambda91() {
+        public void Lambda91() {
             List<Product> products = GetProductList();
 
 
@@ -1613,7 +1613,7 @@ namespace SampleQueries {
         [Title("Aggregate - Simple")]
         [Description("This sample uses Aggregate to create a running product on the array that " +
                      "calculates the total product of all elements.")]
-        public void LinqLambda92() {
+        public void Lambda92() {
             double[] doubles = { 1.7, 2.3, 1.9, 4.1, 2.9 };
             
 
@@ -1630,7 +1630,7 @@ namespace SampleQueries {
         [Description("This sample uses Aggregate to create a running account balance that " +
                      "subtracts each withdrawal from the initial balance of 100, as long as " +
                      "the balance never drops below 0.")]
-        public void LinqLambda93() {
+        public void Lambda93() {
             double startBalance = 100.0;
             
             int[] attemptedWithdrawals = { 20, 10, 40, 50, 10, 70, 30 };
@@ -1651,7 +1651,7 @@ namespace SampleQueries {
         [Title("Concat - 1")]
         [Description("This sample uses Concat to create one sequence that contains each array's " +
                      "values, one after the other.")]
-        public void LinqLambda94() {
+        public void Lambda94() {
             int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 };
             int[] numbersB = { 1, 3, 5, 7, 8 };
             
@@ -1669,7 +1669,7 @@ namespace SampleQueries {
         [Title("Concat - 2")]
         [Description("This sample uses Concat to create one sequence that contains the names of " +
                      "all customers and products, including any duplicates.")]
-        public void LinqLambda95() {
+        public void Lambda95() {
             List<Customer> customers = GetCustomerList();
             List<Product> products = GetProductList();
 
@@ -1690,7 +1690,7 @@ namespace SampleQueries {
         [Title("EqualAll - 1")]
         [Description("This sample uses SequenceEquals to see if two sequences match on all elements " +
                      "in the same order.")]
-        public void LinqLambda96() {
+        public void Lambda96() {
             var wordsA = new string[] { "cherry", "apple", "blueberry" };
             var wordsB = new string[] { "cherry", "apple", "blueberry" };
             
@@ -1705,7 +1705,7 @@ namespace SampleQueries {
         [Title("EqualAll - 2")]
         [Description("This sample uses SequenceEqual to see if two sequences match on all elements " +
                      "in the same order.")]
-        public void LinqLambda97() {
+        public void Lambda97() {
             var wordsA = new string[] { "cherry", "apple", "blueberry" };
             var wordsB = new string[] { "apple", "blueberry", "cherry" };
 
@@ -1720,7 +1720,7 @@ namespace SampleQueries {
         [Title("Deferred Execution")]
         [Description("The following sample shows how query execution is deferred until the query is " +
                      "enumerated at a foreach statement.")]
-        public void LinqLambda99() {
+        public void Lambda99() {
             
             // Queries are not executed until you enumerate over them.
             int[] numbers = new int[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
@@ -1745,7 +1745,7 @@ namespace SampleQueries {
         [Title("Immediate Execution")]
         [Description("The following sample shows how queries can be executed immediately, and their results " +
                     " stored in memory, with methods such as ToList.")]
-        public void LinqLambda100() {
+        public void Lambda100() {
 
             // Methods like ToList(), Max(), and Count() cause the query to be
             // executed immediately.            
@@ -1769,7 +1769,7 @@ namespace SampleQueries {
         [Title("Query Reuse")]
         [Description("The following sample shows how, because of deferred execution, queries can be used " +
                      "again after data changes and will then operate on the new data.")]
-        public void LinqLambda101() {
+        public void Lambda101() {
 
             // Deferred execution lets us define a query once
             // and then reuse it later in various ways.
@@ -1819,7 +1819,7 @@ namespace SampleQueries {
         [Description("This sample shows how to perform a simple inner equijoin of two sequences to " +
             "to produce a flat result set that consists of each element in suppliers that has a matching element " +
             "in customers.")]
-        public void LinqLambda102() {
+        public void Lambda102() {
 
             List<Customer> customers = GetCustomerList();
             List<Supplier> suppliers = GetSupplierList();
@@ -1844,7 +1844,7 @@ namespace SampleQueries {
         [Title("Group Join")]
         [Description("A group join produces a hierarchical sequence. The following query is an inner join " +
                     " that produces a sequence of objects, each of which has a key and an inner sequence of all matching elements.")]
-        public void LinqLambda103() {
+        public void Lambda103() {
             
                
             List<Customer> customers = GetCustomerList();
@@ -1877,7 +1877,7 @@ namespace SampleQueries {
         [Title("Cross Join with Group Join")]
         [Description("The group join operator is more general than join, as this slightly more verbose " +
             "version of the cross join sample shows.  Using extension methods is more verbose than than a query expression.  It requires first doing the GroupJoin and then a SelectMany on each Category group.")]
-        public void LinqLambda104() {
+        public void Lambda104() {
             string[] categories = new string[]{ 
                 "Beverages", 
                 "Condiments", 
@@ -1917,7 +1917,7 @@ namespace SampleQueries {
         [Title("Left Outer Join")]
         [Description("A left outer join produces a result set that includes all the left hand side elements at " + 
             "least once, even if they don't match any right hand side elements.  The lambda expression syntax for an outer join can be created by using a GroupJoin and including a DefaultIfEmpty method on the value that might have null values.")]
-        public void LinqLambda105() {
+        public void Lambda105() {
             List<Customer> customers = GetCustomerList();
             List<Supplier> suppliers = GetSupplierList();
 
@@ -1956,7 +1956,7 @@ namespace SampleQueries {
         [Title("Left Outer Join No. 2")]
         [Description("For each customer in the table of customers, this query returns all the suppliers " +
                      "from that same country, or else a string indicating that no suppliers from that country were found.  The lambda expression syntax for an outer join can be created by using a GroupJoin and including a DefaultIfEmpty method on the value that might have null values.")]
-        public void LinqLambda106()
+        public void Lambda106()
         {
 
             List<Customer> customers = GetCustomerList();
@@ -1997,7 +1997,7 @@ namespace SampleQueries {
         [Description("For each supplier in the table of suppliers, this query returns all the customers " +
                      "from the same city and country, or else a string indicating that no customers from that city/country were found. " +
                      "Note the use of anonymous types to encapsulate the multiple key values.  The lambda expression syntax for an outer join can be created by using a GroupJoin and including a DefaultIfEmpty method on the value that might have null values.")]
-        public void LinqLambda107()
+        public void Lambda107()
         {
             List<Customer> customers = GetCustomerList();
             List<Supplier> suppliers = GetSupplierList();
@@ -2045,7 +2045,7 @@ namespace SampleQueries {
         [LinkedMethod("GetSupplierList")]
         [LinkedMethod("GetCustomerList")]
         [LinkedMethod("createLists")]
-        public void LinqLambda115() {
+        public void Lambda115() {
             ObjectDumper.Write(GetCustomerList(), 1);
 
             Console.WriteLine();
