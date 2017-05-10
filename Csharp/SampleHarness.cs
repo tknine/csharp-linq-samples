@@ -40,9 +40,6 @@ namespace SampleSupport
                     prefix = ((PrefixAttribute)a).Prefix;
             }
 
-            if (prefix == "Lambda")
-                Console.WriteLine("Test");
-
             String allCode = readFile(Application.StartupPath + @"\..\..\" + codeFile);
             
             var methods =
